@@ -6,14 +6,14 @@ Documentation, examples and other resources are available at the website: **http
 
 ## Download
 
-The source code included in this repository is provided as an Eclipse project. After downloading, you only need to import the project and configure your classpath to include the following dependencies:
+The source code included in this repository is provided as an Eclipse project. After downloading it, you only need to import the project and check that the classpath includes the following dependencies:
 
 * JCLEC base (v4.0+)
 * datapro4j library core (v1.0+)], the additional module to access to R and JRI (only for some "reporters" and "handlers", please see the documentation)
 * Apache Commons libraries: collections (v3.2.2), configuration (v1.10+), lang (v2.6), logging (v1.2+)
 * JUnit (v4.12+) and harmcrest-core (v1.3+) (only for test classes)
 
-This libraries are included as jar files in the folder *lib* . A compiled version is also available for download at the website (see instructions about how to link the dependencies).
+This libraries are included as jar files in the folder *lib*, which is already set in the classpath. A compiled version is also available for download at the website (see instructions about how to link the dependencies).
 
 ## Execution
 
