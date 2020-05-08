@@ -1,0 +1,80 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of EC algorithm (Evolution Strategy) -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOESAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.PAES"> <!-- (1+1)-PAES -->
+		<!-- <mo-strategy type="net.sf.jclec.mo.strategy.PAESlambda">-->
+			<!-- Fitness class to be used -->
+			<fitness type="net.sf.jclec.mo.evaluation.fitness.PAESMOFitness" />
+			<!-- Generic parameters -->
+			<number-of-bisections>10</number-of-bisections>
+			<archive-size>20</archive-size>
+			<!-- Specific parameters for (1+lambda)-PAES and (mu+lambda)-PAES -->
+			<mu>1</mu>
+			<lambda>4</lambda>
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<population-size>1</population-size> <!-- (mu) -->
+		<lambda>1</lambda> <!-- (lambda) -->
+		<max-of-generations>10000</max-of-generations> 
+
+		<!-- Encoding and initialisation mechanism -->
+		<provider type="net.sf.jclec.realarray.RealArrayCreator"/>
+		<species type="net.sf.jclec.realarray.RealArrayIndividualSpecies">
+			<!-- The number of genes depends on the DTLZ1 configuration. Having M=2 and k=5, then n=6 -->
+			<genotype-schema>
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+			</genotype-schema>
+		</species>
+		
+		<!-- Evaluator -->		
+		<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1Evaluator">
+		<!--<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1ParallelEvaluator">--> <!-- Evaluate the population in parallel -->
+			<!-- List of objective functions -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" />
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<!-- <recombinator type="net.sf.jclec.realarray.rec.BLXAlphaCrossover" rec-prob="0.9" alpha="0.3"/> --> <!-- Optional in ES -->
+		<mutator type="net.sf.jclec.realarray.mut.NonUniformMutator" mut-prob="0.15" />
+				
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>2000</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-paes-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>2500</report-frequency>
+			<filter-from-archive>false</filter-from-archive>
+			<report-title>report-paes-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>2500</report-frequency>
+			<filter-from-archive>false</filter-from-archive>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<report-title>report-paes-dtlz1</report-title>
+		</listener>
+		
+	</process>
+</experiment>

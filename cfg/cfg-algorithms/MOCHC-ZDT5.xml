@@ -1,0 +1,68 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of EC algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOOnlyRecombinatorAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.MOCHC">
+			<!-- Fitness class to be used -->
+			<fitness type="net.sf.jclec.mo.evaluation.fitness.NSGA2MOFitness" />
+			<!-- Cataclysmic mutator -->
+			<mutator type="net.sf.jclec.binarray.mut.OneLocusMutator" mut-prob="0.35" />
+			<!-- Distance -->
+			<distance type="net.sf.jclec.binarray.HammingDistance" />
+			<!-- Rest of parameters -->
+			<initial-d>3</initial-d> <!-- 25% of problem size=12 -->
+			<restart-d>2</restart-d> 
+			<convergence-value>1</convergence-value>
+			<number-of-survivors>5</number-of-survivors> <!-- 5% of population size -->
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<population-size>100</population-size>
+		<max-of-generations>100</max-of-generations>
+
+		<!-- Encoding and initialisation mechanism -->
+		<provider type="net.sf.jclec.binarray.BinArrayCreator"/>
+		<species type="net.sf.jclec.binarray.BinArrayIndividualSpecies" genotype-length="45" /> <!-- 30+10*5 -->
+		
+		<!-- Evaluator -->		
+		<evaluator type="net.sf.jclec.mo.evaluation.MOEvaluator">
+		<!--<evaluator type="net.sf.jclec.mo.evaluation.MOParallelEvaluator">--> <!-- Evaluate the population in parallel -->
+			<!-- List of objective functions -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.zdt.ZDT5F1Objective" maximize="false" />
+				<objective type="net.sf.jclec.mo.problem.zdt.ZDT5F2Objective" maximize="false" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<recombinator type="net.sf.jclec.binarray.rec.HUXCrossover" />
+						
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>20</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-mochc-zdt5</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>25</report-frequency>
+			<report-title>report-mochc-zdt5</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>25</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<report-title>report-mochc-zdt5</report-title>
+		</listener>
+
+	</process>
+</experiment>

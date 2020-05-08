@@ -1,0 +1,67 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of EC algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOGeneticAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.constrained.ConstrainedNSGA2">
+			<!-- Fitness class to be used -->
+			<fitness type="net.sf.jclec.mo.evaluation.fitness.NSGA2MOFitness" />
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<population-size>100</population-size>
+		<max-of-generations>100</max-of-generations>
+		<!--<max-of-evaluations>10000</max-of-evaluations>--> <!-- Another stopping criteria -->
+
+		<!-- Encoding and initialisation mechanism -->
+		<species type="net.sf.jclec.binarray.BinArrayConstrainedIndividualSpecies" genotype-length="250"/>
+		<provider type="net.sf.jclec.binarray.BinArrayCreator"/>
+		
+		<!-- Evaluator for the multi-objective knapsack problem -->		
+		<evaluator type="net.sf.jclec.mo.problem.knapsack.MOKnapsackEvaluator">
+		<!--<evaluator type="net.sf.jclec.mo.problem.knapsack.MOKnapsackParallelEvaluator">--> <!-- Evaluate the population in parallel -->
+			
+			<!-- Introduce the path of the problem instance -->
+			<problem-instance>problems/knapsack/knapsack.250.4</problem-instance>
+			
+			<!-- The number of objectives is equal to the number of knapsacks in the problem instance -->
+			<objectives>
+				<objective type="net.sf.jclec.mo.problem.knapsack.MOKnapsackObjective" maximize="true" />
+				<objective type="net.sf.jclec.mo.problem.knapsack.MOKnapsackObjective" maximize="true" />
+				<objective type="net.sf.jclec.mo.problem.knapsack.MOKnapsackObjective" maximize="true" />
+				<objective type="net.sf.jclec.mo.problem.knapsack.MOKnapsackObjective" maximize="true" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<recombinator type="net.sf.jclec.binarray.rec.UniformCrossover" rec-prob="0.75" />
+		<mutator type="net.sf.jclec.binarray.mut.OneLocusMutator" mut-prob="0.1" />
+		
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>20</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-nsga2-knapsack</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>25</report-frequency>
+			<report-title>report-nsga2-knapsack</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>25</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<report-title>report-nsga2-knapsack</report-title>
+		</listener>
+		
+	</process>
+</experiment>

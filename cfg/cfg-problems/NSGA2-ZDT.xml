@@ -1,0 +1,95 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of EC algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOGeneticAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.NSGA2">
+			<!-- Fitness class to be used -->
+			<fitness type="net.sf.jclec.mo.evaluation.fitness.NSGA2MOFitness" />
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<population-size>100</population-size>
+		<max-of-generations>100</max-of-generations>
+		<!--<max-of-evaluations>10000</max-of-evaluations>--> <!-- Another stopping criteria -->
+		
+		<!-- Encoding and initialisation mechanism -->
+		<provider type="net.sf.jclec.realarray.RealArrayCreator"/>
+		<species type="net.sf.jclec.realarray.RealArrayIndividualSpecies">
+			<!-- The number of genes depends on the ZDT problem -->
+			<!-- ZDT1 with m=30 -->
+			<genotype-schema>
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+			</genotype-schema>
+		</species>
+		
+		<!-- Evaluator for ZDT problems -->
+		<evaluator type="net.sf.jclec.mo.evaluation.MOEvaluator"> -->
+		<!-- <evaluator type="net.sf.jclec.mo.evaluation.MOParallelEvaluator"> --> <!-- Evaluate the population in parallel -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.zdt.ZDT1F1Objective" maximize="false" />
+				<objective type="net.sf.jclec.mo.problem.zdt.ZDT1F2Objective" maximize="false" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<recombinator type="net.sf.jclec.realarray.rec.ArithmeticCrossover" rec-prob="0.9" />
+		<mutator type="net.sf.jclec.realarray.mut.NonUniformMutator" mut-prob="0.15" />
+				
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>20</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-nsga2-zdt</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>25</report-frequency>
+			<report-title>report-nsga2-zdt</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>25</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<report-title>report-nsga2-zdt</report-title>
+		</listener>
+		
+	</process>
+</experiment>

@@ -1,0 +1,79 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of EC algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOGeneticAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.PAR">
+			<rho>0.0001</rho>
+			<!-- Reference point -->
+			<refPoint>
+				<obj1>0.5</obj1>
+				<obj2>0.0</obj2>
+			</refPoint>
+			<!-- Selector -->
+			<parents-selector type="net.sf.jclec.selector.TournamentSelector">
+				<tournament-size>2</tournament-size>
+			</parents-selector>
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<population-size>100</population-size>
+		<max-of-generations>100</max-of-generations>
+
+		<!-- Encoding and initialisation mechanism -->
+		<provider type="net.sf.jclec.realarray.RealArrayCreator"/>
+		<species type="net.sf.jclec.realarray.RealArrayIndividualSpecies">
+			<!-- The number of genes depends on the DTLZ1 configuration. Having M=2 and k=5, then n=6 -->
+			<genotype-schema>
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+			</genotype-schema>
+		</species>
+		
+		<!-- Evaluator -->		
+		<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1Evaluator">
+		<!--<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1ParallelEvaluator">--> <!-- Evaluate the population in parallel -->
+			<!-- List of objective functions -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" />
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<recombinator type="net.sf.jclec.realarray.rec.ArithmeticCrossover" rec-prob="0.7" />
+		<mutator type="net.sf.jclec.realarray.mut.NonUniformMutator" mut-prob="0.15" />
+				
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>20</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-pas-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>25</report-frequency>
+			<report-title>report-pas-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>25</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<filter-from-archive>false</filter-from-archive>
+			<report-title>report-pas-dtlz1</report-title>
+		</listener>
+		
+	</process>
+</experiment>

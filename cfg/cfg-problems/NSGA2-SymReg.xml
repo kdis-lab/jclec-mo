@@ -1,0 +1,78 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of EC algorithm (GP) -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOGPAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.NSGA2">
+			<!-- Fitness class to be used -->
+			<fitness type="net.sf.jclec.mo.evaluation.fitness.NSGA2MOFitness" />
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<population-size>100</population-size>
+		<max-of-generations>100</max-of-generations>
+		<!-- <max-of-evaluations>10000</max-of-evaluations> --> <!-- Another stopping criteria -->
+
+		<!-- Encoding and initialisation mechanism -->
+		<provider type="net.sf.jclec.exprtree.ExprTreeCreator"/>
+		<species type="net.sf.jclec.exprtree.ExprTreeIndividualSpecies" number-of-trees="1">
+			<expression-tree>
+				<min-tree-size>3</min-tree-size>
+				<max-tree-size>25</max-tree-size>
+				<root-type>java.lang.Double</root-type>		
+				<terminals>
+					<terminal class="net.sf.jclec.mo.problem.symreg.X"/>
+				</terminals>
+				<functions>
+					<function class="net.sf.jclec.mo.problem.symreg.Add"/>
+					<function class="net.sf.jclec.mo.problem.symreg.Sub"/>
+					<function class="net.sf.jclec.mo.problem.symreg.Mul"/>
+ 				</functions> 
+			</expression-tree>
+		</species>
+		
+		<!-- The evaluator for the symbolic regression problem -->		
+		<evaluator type="net.sf.jclec.mo.evaluation.MOEvaluator">
+		<!-- <evaluator type="net.sf.jclec.mo.evaluation.MOParallelEvaluator"> --> <!-- Evaluate the population in parallel -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.symreg.SymRegError" maximize="false" />
+				<objective type="net.sf.jclec.mo.problem.symreg.SymRegComplexity" maximize="false" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<recombinator type="net.sf.jclec.exprtree.ExprTreeRecombinator" rec-prob="0.8">
+			<base-op type="net.sf.jclec.exprtree.rec.SubtreeCrossover" />
+		</recombinator>
+		<mutator type="net.sf.jclec.exprtree.ExprTreeMutator" mut-prob="0.1">
+			<base-op type="net.sf.jclec.exprtree.mut.SubtreeMutator" />
+		</mutator>
+		
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>20</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-nsga2-symreg</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>25</report-frequency>
+			<report-title>report-nsga2-symreg</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>25</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<report-title>report-nsga2-symreg</report-title>
+		</listener>
+		
+	</process>
+</experiment>

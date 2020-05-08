@@ -1,0 +1,83 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of EC algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOGeneticAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.SSeMOEA">
+			<!-- Fitness class to be used -->
+			<fitness type="net.sf.jclec.mo.evaluation.fitness.HypercubeMOFitness" />
+			
+			<!-- Epsilon values -->
+			<epsilon-values>
+				<!-- Epsilon values (lengths of hypercube for each objective). If only one value
+				is set, it will be applied to all the objectives -->
+				<epsilon-value>0.01</epsilon-value>
+				<epsilon-value>0.02</epsilon-value>
+				
+				<!-- Alternatively, you can set the number of hypercubes instead of their lengths -->
+				<!--<number-of-hypercubes>5</number-of-hypercubes>--> 
+			</epsilon-values>
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<population-size>126</population-size>
+		<max-of-generations>10000</max-of-generations>
+
+		<!-- Encoding and initialisation mechanism -->
+		<provider type="net.sf.jclec.realarray.RealArrayCreator"/>
+		<species type="net.sf.jclec.realarray.RealArrayIndividualSpecies">
+			<!-- The number of genes depends on the DTLZ1 configuration. Having M=2 and k=5, then n=6 -->
+			<genotype-schema>
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+			</genotype-schema>
+		</species>
+		
+		<!-- Evaluator -->		
+		<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1Evaluator">
+		<!--<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1ParallelEvaluator">--> <!-- Evaluate the population in parallel -->	
+			<!-- List of objective functions -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" min="0.0" max="500.0"/>
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" min="0.0" max="500.0"/>
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<recombinator type="net.sf.jclec.realarray.rec.ArithmeticCrossover" rec-prob="0.7"/>
+		<mutator type="net.sf.jclec.realarray.mut.NonUniformMutator" mut-prob="0.15" />
+				
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>2000</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-emoea-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>2500</report-frequency>
+			<filter-from-archive>false</filter-from-archive>
+			<report-title>report-emoea-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>2500</report-frequency>
+			<filter-from-archive>false</filter-from-archive>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<report-title>report-emoea-dtlz1</report-title>
+		</listener>
+		
+	</process>
+</experiment>

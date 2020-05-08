@@ -1,0 +1,127 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Example 3: The Knapsack problem
+	Last update: March 2018.
+-->
+<experiment>
+	<!-- The type of EC algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOGeneticAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy multi="true">
+			<mo-strategy type="net.sf.jclec.mo.strategy.constrained.ConstrainedNSGA2">
+				<fitness type="net.sf.jclec.mo.evaluation.fitness.NSGA2MOFitness" />
+			</mo-strategy>
+			<mo-strategy type="net.sf.jclec.mo.strategy.constrained.ConstrainedSPEA2" />
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory multi="true">
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="234567891"/>
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="345678912"/>
+		</rand-gen-factory>
+		
+		<population-size>100</population-size>
+		<max-of-generations>300</max-of-generations>
+		
+		<!-- Encoding and initialisation mechanism -->
+		<species type="net.sf.jclec.binarray.BinArrayConstrainedIndividualSpecies" genotype-length="100"/>
+		<provider type="net.sf.jclec.binarray.BinArrayCreator"/>
+		
+		<!-- Evaluator for the multi-objective knapsack problem -->		
+		<evaluator type="net.sf.jclec.mo.problem.knapsack.MOKnapsackEvaluator">
+		
+			<!-- Introduce the path of the problem instance -->
+			<problem-instance>problems/knapsack/knapsack.100.3</problem-instance>
+			
+			<!-- The number of objectives is equal to the number of knapsacks in the problem instance -->
+			<objectives>
+				<objective type="net.sf.jclec.mo.problem.knapsack.MOKnapsackObjective" maximize="true" />
+				<objective type="net.sf.jclec.mo.problem.knapsack.MOKnapsackObjective" maximize="true" />
+				<objective type="net.sf.jclec.mo.problem.knapsack.MOKnapsackObjective" maximize="true" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->
+		<recombinator type="net.sf.jclec.binarray.rec.UniformCrossover" rec-prob="0.9" />
+		<mutator type="net.sf.jclec.binarray.mut.OneLocusMutator" mut-prob="0.1" />
+		
+		<!-- Reporters -->
+		<listener type="net.sf.jclec.mo.listener.MOComparisonReporter">
+			<!-- Generic parameters -->
+			<report-frequency>150</report-frequency>
+			<report-title>knapsack-experiment</report-title>
+			<filter-from-archive>true</filter-from-archive>
+			
+			<!-- Specific parameters -->
+			<number-of-algorithms>2</number-of-algorithms>
+			<number-of-executions>3</number-of-executions>
+
+			<!-- The list of quality indicators -->
+			<indicators>
+				<indicator type="net.sf.jclec.mo.indicator.GenerationalDistance"/>
+				<indicator type="net.sf.jclec.mo.indicator.Hypervolume"/>
+				<indicator type="net.sf.jclec.mo.indicator.ONVG"/>
+				<!-- The true PF -->
+				<second-pareto-front>problems/knapsack/knapsack100-3-pareto.txt</second-pareto-front>
+			</indicators>
+			
+			<!-- Commands that will be used to perform objective transformations -->
+			<command-invert type="net.sf.jclec.mo.command.ObjectiveInverter" />
+			<command-scale type="net.sf.jclec.mo.command.ObjectiveScaler">
+				<bounds>
+					<bound min="0.0" max="5000.0"/>
+					<bound min="0.0" max="5000.0"/>
+					<bound min="0.0" max="5000.0"/>
+				</bounds>
+			</command-scale>
+			<command-extract type="net.sf.jclec.mo.command.NonDominatedFeasibleSolutionsExtractor">
+				<comparator type="net.sf.jclec.mo.comparator.fcomparator.ParetoComparator" />
+			</command-extract>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOIndicatorReporter">
+			<!-- Generic parameters -->
+			<report-frequency>150</report-frequency>
+			<report-on-console>false</report-on-console>
+			<report-on-file>true</report-on-file>
+			<report-title>knapsack-experiment</report-title>
+			<filter-from-archive>true</filter-from-archive>
+			
+			<!-- The list of quality indicators -->
+			<indicators>
+				<indicator type="net.sf.jclec.mo.indicator.AdditiveEpsilon"/>
+				<indicator type="net.sf.jclec.mo.indicator.Epsilon"/>
+				<indicator type="net.sf.jclec.mo.indicator.ErrorRatio"/>
+				<indicator type="net.sf.jclec.mo.indicator.GeneralizedSpread"/>
+				<indicator type="net.sf.jclec.mo.indicator.GenerationalDistance"/>
+				<indicator type="net.sf.jclec.mo.indicator.HyperareaRatio"/>
+				<indicator type="net.sf.jclec.mo.indicator.Hypervolume"/>
+				<indicator type="net.sf.jclec.mo.indicator.InvertedGenerationalDistance"/>
+				<indicator type="net.sf.jclec.mo.indicator.MaximumError"/>
+				<indicator type="net.sf.jclec.mo.indicator.ONVG"/>
+				<indicator type="net.sf.jclec.mo.indicator.Spacing"/>
+				<indicator type="net.sf.jclec.mo.indicator.TwoSetCoverage"/>
+				
+				<!-- True PF -->
+				<second-pareto-front>problems/knapsack/knapsack100-3-pareto.txt</second-pareto-front>
+				
+			</indicators>
+			
+			<!-- Commands that will be used to perform objective transformations -->
+			<command-invert type="net.sf.jclec.mo.command.ObjectiveInverter" />
+			<command-scale type="net.sf.jclec.mo.command.ObjectiveScaler">
+				<bounds>
+					<bound min="0.0" max="5000.0"/>
+					<bound min="0.0" max="5000.0"/>
+					<bound min="0.0" max="5000.0"/>
+				</bounds>
+			</command-scale>
+			<command-extract type="net.sf.jclec.mo.command.NonDominatedFeasibleSolutionsExtractor">
+				<comparator type="net.sf.jclec.mo.comparator.fcomparator.ParetoComparator" />
+			</command-extract>
+		</listener>
+		
+	</process>
+</experiment>

@@ -1,0 +1,69 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Last update: March 2018.
+-->
+
+<experiment>
+	<!-- The type of algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOPSOAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.SMPSO">
+			<!-- Fitness class to be used -->
+			<fitness type="net.sf.jclec.mo.evaluation.fitness.OMOPSOMOFitness" />
+			<archive-size>100</archive-size>
+			<epsilon-value>0.0075</epsilon-value>
+			<mutator type="net.sf.jclec.realarray.mut.NonUniformMutator" />
+		</mo-strategy>
+		
+		<!-- General parameters -->
+		<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+		<swarm-size>100</swarm-size>
+		<max-of-generations>100</max-of-generations>
+
+		<!-- Encoding and initialisation mechanism -->
+		<provider type="net.sf.jclec.pso.ParticleCreator"/>
+		<species type="net.sf.jclec.pso.ParticleSpecies">
+			<!-- The number of genes depends on the DTLZ1 configuration. Having M=2 and k=5, then n=6 -->
+			<genotype-schema>
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+				<locus type="net.sf.jclec.util.range.Interval" left="0" right="1" closure="closed-closed" />
+			</genotype-schema>
+		</species>
+		
+		<!-- Evaluator -->		
+		<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1Evaluator">
+		<!--<evaluator type="net.sf.jclec.mo.problem.dtlz.DTLZ1ParallelEvaluator">--> <!-- Evaluate the population in parallel -->
+			<!-- List of objective functions -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" min="0.0" max="500.0" />
+				<objective type="net.sf.jclec.mo.problem.dtlz.DTLZ1Objective" maximize="false" min="0.0" max="500.0" />
+			</objectives>
+		</evaluator>
+
+		<!-- Listeners -->
+		<listener type="net.sf.jclec.mo.listener.MOPopulationReporter">
+			<report-frequency>20</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>false</report-on-console>
+			<report-title>report-smpso-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>25</report-frequency>
+			<report-title>report-smpso-dtlz1</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>25</report-frequency>
+			<report-on-file>true</report-on-file>
+			<report-on-console>true</report-on-console>
+			<report-title>report-smpso-dtlz1</report-title>
+		</listener>
+				
+	</process>
+</experiment>

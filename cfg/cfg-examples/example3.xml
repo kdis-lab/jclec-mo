@@ -1,0 +1,64 @@
+<!-- 
+	CONFIGURATION FILE FOR JCLEC-MO
+	Example 3: The Travelling Salesman Problem with MOEA/D
+	Last update: March 2018.
+-->
+<experiment>
+	<!-- The type of EC algorithm -->
+	<process algorithm-type="net.sf.jclec.mo.algorithm.MOGeneticAlgorithm">
+		
+		<!-- The multi-objective approach -->
+		<mo-strategy type="net.sf.jclec.mo.strategy.MOEADte">
+			<t>5</t>
+			<nr>5</nr>
+			<h>99</h>
+		</mo-strategy>
+			
+		<!-- General parameters -->
+		<rand-gen-factory multi="true">
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="123456789"/>
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="234567891"/>
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="345678912"/>
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="456789123"/>
+			<rand-gen-factory type="net.sf.jclec.util.random.RanecuFactory" seed="567891234"/>
+		</rand-gen-factory>
+		
+		<population-size>100</population-size>
+		<max-of-generations>300</max-of-generations>
+		
+		<!-- Encoding and initialisation mechanism -->
+		<species type="net.sf.jclec.orderarray.OrderArrayIndividualSpecies" genotype-length="100"/>
+		<provider type="net.sf.jclec.orderarray.OrderArrayCreator"/>
+		
+		<!-- Evaluator for the multi-objective TSP -->			
+		<evaluator type="net.sf.jclec.mo.problem.tsp.MOTSPEvaluator">
+						
+			<!-- Problem instances -->
+			<problem-instances>		
+				<problem-instance>problems/tsp/kroA100.tsp</problem-instance>
+				<problem-instance>problems/tsp/kroB100.tsp</problem-instance>
+			</problem-instances>
+						
+			<!-- List of objectives -->
+			<objectives>	 
+				<objective type="net.sf.jclec.mo.problem.tsp.MOTSPObjective" maximize="false" />
+				<objective type="net.sf.jclec.mo.problem.tsp.MOTSPObjective" maximize="false" />
+			</objectives>
+		</evaluator>
+		
+		<!-- Genetic operators -->	
+		<recombinator type="net.sf.jclec.orderarray.rec.OrderPMXCrossover" rec-prob="0.9" />
+		<mutator type="net.sf.jclec.orderarray.mut.Order2OptMutator" mut-prob="0.1" />
+		
+		<!-- Reporters -->
+		<listener type="net.sf.jclec.mo.listener.MOParetoFrontReporter">
+			<report-frequency>100</report-frequency>
+			<report-title>report-moead-tsp</report-title>
+		</listener>
+		
+		<listener type="net.sf.jclec.mo.listener.MOParetoSetReporter">
+			<report-frequency>100</report-frequency>
+			<report-title>report-moead-tsp</report-title>
+		</listener>
+	</process>
+</experiment>
