@@ -20,7 +20,7 @@ This libraries are included as jar files in the folder *lib*, which is already s
 JCLEC-MO requires a configuration file in XML format, which specifies the problem to be solved, algorithm to be applied, and its parameter values. Several examples can be found in the folder *cfg*. The file should be specified as the program parameter of the main JCLEC class, *RunExperiment*. You can also create an customized experiment able to run one or more configuration files using the class *MOExperimentRunner*. If you are using the binary jar file and want to execute a configuration file, e.g. NSGA2-DTLZ1, just open a console and type:
 
 ```
-java -jar jclec-mo-1.0.jar NSGA2-DTLZ1.xml
+java -jar jclec-mo.jar NSGA2-DTLZ1.xml
 ```
 
 ## Documentation
