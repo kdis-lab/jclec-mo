@@ -23,6 +23,12 @@ JCLEC-MO requires a configuration file in XML format, which specifies the proble
 java -jar jclec-mo-1.0.jar NSGA2-DTLZ1.xml
 ```
 
+## Documentation
+
+* [API](http://www.uco.es/grupos/kdis/jclec-mo/v1/api/)
+* [User guide and tutorial](http://www.uco.es/grupos/kdis/jclec-mo/v1/docs/jclec-mo-1.0-user-guide.pdf)
+* [Design specification](http://www.uco.es/grupos/kdis/jclec-mo/v1/docs/jclec-mo-1.0-design-specification.pdf)
+
 ## Licence
 
 Copyright (c) 2018 The authors.
