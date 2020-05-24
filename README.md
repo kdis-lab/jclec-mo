@@ -9,15 +9,15 @@ Documentation, examples and other resources are available at the website: **http
 The source code included in this repository is provided as an Eclipse project. After downloading it, you only need to import the project and check that the classpath includes the following dependencies:
 
 * JCLEC base (v4.0+)
-* datapro4j library core (v1.0+)], the additional module to access to R and JRI (only for some "reporters" and "handlers", please see the documentation)
+* datapro4j library core (v1.0+), the additional module to access to R and JRI (only for some "reporters" and "handlers", please see the documentation)
 * Apache Commons libraries: collections (v3.2.2), configuration (v1.10+), lang (v2.6), logging (v1.2+)
 * JUnit (v4.12+) and harmcrest-core (v1.3+) (only for test classes)
 
-This libraries are included as jar files in the folder *lib*, which is already set in the classpath. A compiled version is also available for download at the website (see instructions about how to link the dependencies).
+This libraries are included as jar files in the folder *lib*, which is already set in the classpath. A compiled version (jar file) is also available for download (see instructions about how to link the dependencies).
 
 ## Execution
 
-JCLEC-MO requires a configuration file in XML format, which specifies the problem to be solved, algorithm to be applied, and its parameter values. Several examples can be found in the folder *cfg*. The file should be specified as the program parameter of the main JCLEC class, *RunExperiment*. You can also create an customized experiment able to run one or more configuration files using the class *MOExperimentRunner*. If you are using the binary jar file and want to execute a configuration file, e.g. NSGA2-DTLZ1, just open a console and type:
+JCLEC-MO requires a configuration file in XML format, which specifies the problem to be solved, the algorithm to be applied, and its parameter values. Several examples can be found in the folder *cfg*. The file should be specified as the program parameter of the main JCLEC class, *RunExperiment*. You can also create a customized experiment able to run one or more configuration files using the class *MOExperimentRunner*. If you are using the binary jar file and want to run a configuration file, e.g. NSGA2-DTLZ1, just open a console and type:
 
 ```
 java -jar jclec-mo.jar NSGA2-DTLZ1.xml
